@@ -1,27 +1,123 @@
+body, html{
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: rgb(182, 182, 182);
+    height: calc(100% - 0.4em);
+    overflow: hidden;
+    margin: 0.2em;
+}
 
+canvas{
+    background-color: white;
+    border-radius: 0.4em;
+    width: 100%;
+    height: calc(100% - 3.6em);
+    margin-top: 0.4em;
+    margin-bottom: 0.4em;
+}
+
+.topnav{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: white;
+    border-radius: 0.5em;
+    padding: 0.5em;
+}
 
 .menu, .generation, .rate, .visualize{
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    padding: 1%;
+}
+
+.menu{
+    gap: 0.3em;
+}
+
+.generation{
+    gap: 1em;
+}
+
+.rate, .visualize{
+    gap: 0.1em;
+}
+
+.txt{
+    font-size: 0.9em;
+}
+
+form{
+    display: flex;
+    gap: 0.5em;
+    align-items: center;
+}
+
+input{
+    background-color: #f0f2f5;
+    box-sizing: border-box;
+    border: 0.1em none;
+    border-radius: 0.3em;
+    font-size: 1.1em;
+    height: auto;
+    padding: 0.4rem;
 }
 
 .btn{
+    display: flex;
+    align-items: center;
     box-sizing: border-box;
-    height: 100%;
+    border: 0.1em none;
+    border-radius: 0.4em;
     background-color: white;
+    font-size: 1em;
+    height: auto;
+    padding: 0.1em;
+    padding-top: 0.3em;
+    padding-bottom: 0.3em;
+
+    gap: 0.3em;
+}
+
+.btn:hover{
+    background-color: aquamarine;
+}
+
+.btn-borderless{
     border: none;
-    padding: 1%;
+}
+
+.btn-lspace{
+    padding-left: 0.7em;
+}
+
+.btn-rspace{
+    padding-right: 1em;
+}
+
+.btn-only-labeled{
+    padding: 0.3em 0.8em 0.3em;
 }
 
 .logo{
     font-family: 'Courier New', Courier, monospace;
-    font-weight: 700;
     margin: 0%;
 }
 
 .vertical-line{
-    border-left: 1px solid black;
-    height: 25px;
+    border-left: 0.1em solid black;
+    height: 1.5em;
+}
+
+#visualize{
+    background-color: aquamarine;
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+}
+
+#visualize:hover{
+    background-color: rgb(108, 255, 152);
+}
+
+.visualization-speed{
+    font-size: 1em;
+    margin: 0 0.5em 0;
 }

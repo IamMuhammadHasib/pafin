@@ -1,21 +1,72 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles.css">
     <title>Make Path</title>
 </head>
+
 <body>
     <div class="topnav">
+
         <div class="menu">
-            <button class="btn"><img src="./icons/menu.svg"></button>
-            <h3 class="logo">Path Finder</h3>
-            <div class="vertical-line"></div>
+            <button class="btn btn-borderless"><img src="./icons/menu.svg"></button>
+            <h3 class="logo">Path_Finder</h3>
         </div>
-        <div class="genration"></div>
-        <div class="rate"></div>
-        <div class="visualize"></div>
+
+        <div class="vertical-line"></div>
+        <div class="generation">
+            <div class="dropdown">
+                <button onclick="ddExpand()" class="btn btn-lspace dropbtn">
+                    Generative<img src="./icons/expand.svg" alt="">
+                </button>
+            </div>
+
+            <form action="">
+                <label class="txt" for="nrow">Rows</label>
+                <input type="text" id="nrow" name="nrow" value="10" maxlength="3" size="1">
+                <label class="txt" for="ncol">Cols</label>
+                <input type="text" id="ncol" name="ncol" value="20" maxlength="3" size="1">
+                <button class="btn btn-borderless"><img src="./icons/refresh.svg" alt=""></button>
+            </form>
+        </div>
+
+        <div class="vertical-line"></div>
+        <div class="rate">
+            <button disabled onclick="" class="btn btn-rspace">
+                <img src="./icons/reset.svg" alt="">Reset
+            </button>
+            <button disabled onclick="" class="btn btn-rspace">
+                <img src="./icons/analyze.svg" alt="">Rate My Path
+            </button>
+            <button onclick="" class="btn btn-rspace">
+                <img src="./icons/lightbulb.svg" alt="">Sortest Path
+            </button>
+        </div>
+        <div class="vertical-line"></div>
+
+        <div class="visualize">
+            <button onclick="" class="btn btn-borderless">
+                <img src="./icons/slow.svg" alt="">
+            </button>
+            <p class="visualization-speed">1x</p>
+            <button onclick="" class="btn btn-borderless">
+                <img src="./icons/fast.svg" alt="">
+            </button>
+            <div class="dropdown">
+                <button onclick="ddExpand()" class="btn btn-lspace dropbtn">
+                    BFS<img src="./icons/expand.svg" alt="">
+                </button>
+            </div>
+            <button onclick="" id="visualize" class="btn btn-only-labeled">Visualize</button>
+        </div>
     </div>
+
+    <canvas>
+
+    </canvas>
 </body>
+
 </html>
