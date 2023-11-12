@@ -18,19 +18,45 @@
 
         <div class="vertical-line"></div>
         <div class="generation">
-            <div class="dropdown">
-                <button onclick="ddExpand()" class="btn btn-lspace dropbtn">
-                    Generative<img src="./icons/expand.svg" alt="">
-                </button>
+            <div class="dropdown dd-canvas">
+                <div class="select">
+                    <span class="selected">Generative</span>
+                    <div class="caret"></div>
+                </div>
+                <ul id="canvas-selection" class="listing">
+                    <li value="1" class="active">Generative</li>
+                    <li value="2">Sandbox</li>
+                    <li value="3">World Map</li>
+                </ul>
             </div>
 
-            <form action="">
-                <label class="txt" for="nrow">Rows</label>
-                <input type="text" id="nrow" name="nrow" value="10" maxlength="3" size="1">
-                <label class="txt" for="ncol">Cols</label>
-                <input type="text" id="ncol" name="ncol" value="20" maxlength="3" size="1">
-                <button class="btn btn-borderless"><img src="./icons/refresh.svg" alt=""></button>
-            </form>
+            <div id="for-generative" class="tools-hidden">
+                <form action="">
+                    <label class="txt" for="nrow">Rows</label>
+                    <input type="text" id="nrow" name="nrow" value="10" maxlength="3" size="1">
+                    <label class="txt" for="ncol">Cols</label>
+                    <input type="text" id="ncol" name="ncol" value="20" maxlength="3" size="1">
+                    <button class="btn btn-borderless"><img src="./icons/refresh.svg" alt=""></button>
+                </form>
+            </div>
+            <div id="for-sandbox" class="tools-hidden">
+                <form action="">
+                    <label class="txt" for="nrow">TTows</label>
+                    <input type="text" id="nrow" name="nrow" value="10" maxlength="3" size="1">
+                    <label class="txt" for="ncol">Cols</label>
+                    <input type="text" id="ncol" name="ncol" value="20" maxlength="3" size="1">
+                    <button class="btn btn-borderless"><img src="./icons/refresh.svg" alt=""></button>
+                </form>
+            </div>
+            <div id="for-world-map" class="tools-hidden">
+                <form action="">
+                    <label class="txt" for="nrow">MMows</label>
+                    <input type="text" id="nrow" name="nrow" value="10" maxlength="3" size="1">
+                    <label class="txt" for="ncol">Cols</label>
+                    <input type="text" id="ncol" name="ncol" value="20" maxlength="3" size="1">
+                    <button class="btn btn-borderless"><img src="./icons/refresh.svg" alt=""></button>
+                </form>
+            </div>
         </div>
 
         <div class="vertical-line"></div>
@@ -55,18 +81,28 @@
             <button onclick="" class="btn btn-borderless">
                 <img src="./icons/fast.svg" alt="">
             </button>
-            <div class="dropdown">
-                <button onclick="ddExpand()" class="btn btn-lspace dropbtn">
-                    BFS<img src="./icons/expand.svg" alt="">
-                </button>
+            <div class="dropdown dd-visualize">
+                <div class="select">
+                    <span class="selected">BFS</span>
+                    <div class="caret"></div>
+                </div>
+                <ul class="listing">
+                    <li class="active">BFS</li>
+                    <li>Dijkstra</li>
+                    <li>A* Search</li>
+                </ul>
             </div>
             <button onclick="" id="visualize" class="btn btn-only-labeled">Visualize</button>
         </div>
     </div>
 
-    <canvas>
+    <canvas class="maze">
 
     </canvas>
+
+
+    <script src="navbar.js"></script>
+    <script src="game.js"></script>
 </body>
 
 </html>
