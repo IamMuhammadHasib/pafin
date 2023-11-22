@@ -6,6 +6,42 @@ body, html{
     margin: 0.2em;
 }
 
+.modal {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 30%;
+    transform: translate(-50%, -50%);
+}
+
+.list-header{
+    margin-bottom: 0.5em;
+}
+
+.list-top{
+    margin-top: 0;
+}
+
+.mt{
+    margin-top: 1em;
+}
+
+.modal-content {
+    background-color: aquamarine;
+    /* margin: 15% auto; */
+    padding: 1em;
+    padding-left: 2em;
+    padding-right: 2em;
+    /* border: 0.1em solid black; */
+    border-radius: 0.5em;
+}
+
+.close-modal {
+    color: black;
+    float: right;
+}
+
 canvas{
     background-color: white;
     border-radius: 0.5em;
@@ -182,7 +218,7 @@ input{
 .listing{
     list-style: none;
     padding: 0.2em 0.5em;
-    background-color: aquamarine;
+    background-color: #f0f2f5;
     color: black;
     /* border: 1px solid skyblue; */
     border-radius: 0.5em;
@@ -193,7 +229,6 @@ input{
     transform: translate(-50%);
     opacity: 0;
     display: none;
-    /* transition: 0.2s; */
     z-index: 1;
 }
 

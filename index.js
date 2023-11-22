@@ -1,7 +1,20 @@
 document.addEventListener('DOMContentLoaded', function () {
+    const modal = document.getElementById('notice-modal');
+    modal.style.display = 'block';
+
+
     document.getElementById('refresh-button').addEventListener('click', initializeMaze);
     initializeMaze();
 });
+
+function closeModal(){
+    const modal = document.getElementById('notice-modal');
+    modal.style.display = 'none';
+}
+
+var maze;
+var canvas = document.querySelector('.maze');
+var boxSize;
 
 function initializeMaze() {
     const inputNumberOfRows = document.getElementById('nrow');
@@ -11,7 +24,7 @@ function initializeMaze() {
     const cols = parseInt(inputNumberOfCols.value) || 100;
     // console.log(rows + " " + cols);
 
-    let maze = new GenerateMaze(rows, cols);
+    maze = new GenerateMaze(rows, cols);
 }
 
 const canvasList = document.getElementById('canvas-selection');
@@ -22,7 +35,7 @@ canvasList.addEventListener('click', event => {
         console.log(selectedCanvas);
 
         if (selectedCanvas == 1) {
-            let maze = new GenerateMaze(50, 100);
+            maze = new GenerateMaze(50, 100);
 
         } else if (selectedCanvas == 2) {
             console.log("Board to draw your maze");
@@ -30,6 +43,39 @@ canvasList.addEventListener('click', event => {
             console.log("Can we load world map with paths as line to visualize path between two distance?");
         }
     }
+});
+
+
+const algorithmList = document.getElementById('algorithm-selection');
+let selectedAlgorithm = 1;
+
+algorithmList.addEventListener('click', event => {
+    if (event.target.tagName === 'LI') {
+        selectedAlgorithm = event.target.getAttribute('value');
+        // console.log(selectedAlgorithm);
+    }
+});
+
+document.getElementById('visualize-btn').addEventListener('click', () => {
+    // console.log(selectedAlgorithm);
+    maze.drawMaze();
+    if (selectedAlgorithm == 1) {
+        let bfsTraversal = maze.visualizePathBFS();
+        console.log('BFS');
+        console.log(bfsTraversal);
+
+        // console.log(this.exit);
+        // let [cx, cy] = this.exit;
+        // console.log(cx + "-" + cy);
+    }
+    else if (selectedAlgorithm == 2) console.log('Dijkstra');
+    else if (selectedAlgorithm == 3) console.log('A* search');
+});
+
+document.getElementById('getShortestPath').addEventListener('click', () => {
+    maze.drawMaze();
+    let color = 'aquamarine';
+    maze.findPathBFS(color);
 });
 
 
@@ -96,21 +142,168 @@ class GenerateMaze {
         this.drawMaze();
     }
 
+    visualizePathBFS() {
+        const startX = (canvas.width - (boxSize * this.cols)) / 2;
+        const startY = (canvas.height - (boxSize * this.rows)) / 2;
+        console.log(startX + "~" + startY);
+
+        // console.log(this.entry);
+        let queue = [];
+        queue.push(this.entry);
+        // console.log(queue);
+        // console.log(queue[0]);
+
+        let visited = [], parent = [];
+        for (let i = 0; i < this.rows; i++) {
+            visited[i] = [], parent[i] = []
+            for (let j = 0; j < this.cols; j++)
+                visited[i][j] = 0, parent[i][j] = [];
+        }
+
+        const processQueue = () => {
+            if (queue.length === 0) {
+                // console.log('No path available');
+                return;
+            }
+
+            let vx = queue[0][0], vy = queue[0][1];
+            queue.shift();
+
+            if (vx == this.exit[0] && vy == this.exit[1]) {
+                // console.log('Path found');
+                let shortestPath = [];
+                let [cx, cy] = this.exit;
+
+                while (cx != this.entry[0] || cy != this.entry[1]) {
+                    shortestPath.push([cx, cy]);
+                    [cx, cy] = parent[cx][cy];
+                }
+                shortestPath.push([cx, cy]);
+                shortestPath.reverse();
+                console.log(shortestPath);
+                // return shortestPath;
+                for (let i = 0; i < shortestPath.length; i++) {
+                    this.fillRectangle(shortestPath[i][0], shortestPath[i][1], 'white');
+                }
+                this.fillRectangle(this.exit[0], this.exit[1], 'white');
+                return;
+
+            }
+
+            visited[vx][vy] = 1;
+            this.fillRectangle(vx, vy, 'aquamarine');
+
+
+            let childs = [
+                [vx - 1, vy],
+                [vx + 1, vy],
+                [vx, vy - 1],
+                [vx, vy + 1]
+            ];
+            // console.log(childs);
+
+            for (let [cx, cy] of childs) {
+                // console.log(cx+"~"+cy);
+                if (cx >= 0 && cx < this.rows && cy >= 0 && cy < this.cols && !visited[cx][cy] && this.grid[cx][cy]) {
+                    queue.push([cx, cy]);
+                    parent[cx][cy] = [vx, vy];
+                }
+            }
+            // console.log(parent);
+
+            setTimeout(processQueue, 0);
+        };
+
+        setTimeout(processQueue, 0);
+    }
+
+
+    fillRectangle(x, y, color) {
+        const ctx = canvas.getContext('2d');
+        const startX = (canvas.width - (boxSize * this.cols)) / 2;
+        const startY = (canvas.height - (boxSize * this.rows)) / 2;
+
+        const rectX = startX + y * boxSize;
+        const rectY = startY + x * boxSize;
+
+        ctx.fillStyle = color;
+        ctx.fillRect(rectX, rectY, boxSize, boxSize);
+    }
+
+    findPathBFS(color) {
+        const startX = (canvas.width - (boxSize * this.cols)) / 2;
+        const startY = (canvas.height - (boxSize * this.rows)) / 2;
+        console.log(startX + "~" + startY);
+
+
+        let queue = [];
+        queue.push(this.entry);
+
+        let visited = [], parent = [];
+        for (let i = 0; i < this.rows; i++) {
+            visited[i] = [], parent[i] = []
+            for (let j = 0; j < this.cols; j++)
+                visited[i][j] = 0, parent[i][j] = [];
+        }
+
+        while (queue.length) {
+            let vx = queue[0][0], vy = queue[0][1];
+            queue.shift();
+
+            if (vx == this.exit[0] && vy == this.exit[1]) {
+                console.log('Path found');
+                break;
+            }
+
+            visited[vx][vy] = 1;
+
+            let childs = [
+                [vx - 1, vy],
+                [vx + 1, vy],
+                [vx, vy - 1],
+                [vx, vy + 1]
+            ];
+
+            for (let [cx, cy] of childs) {
+                if (cx >= 0 && cx < this.rows && cy >= 0 && cy < this.cols && !visited[cx][cy] && this.grid[cx][cy]) {
+                    queue.push([cx, cy]);
+                    parent[cx][cy] = [vx, vy];
+                }
+            }
+        }
+
+        let shortestPath = [];
+        let [cx, cy] = this.exit;
+
+        while (cx != this.entry[0] || cy != this.entry[1]) {
+            shortestPath.push([cx, cy]);
+            [cx, cy] = parent[cx][cy];
+        }
+        shortestPath.push([cx, cy]);
+        shortestPath.reverse();
+        console.log(shortestPath);
+
+        for (let i = 0; i < shortestPath.length; i++) {
+            this.fillRectangle(shortestPath[i][0], shortestPath[i][1], color);
+        }
+        this.fillRectangle(this.exit[0], this.exit[1], color);
+    }
+
     drawMaze() {
-        const canvas = document.querySelector('.maze');
         const ctx = canvas.getContext('2d');
         let canvasSize = document.querySelector('canvas.maze');
         canvasSize.width = window.innerWidth - (parseInt(getComputedStyle(document.body).margin) * 4);
         canvasSize.height = window.innerHeight - (parseInt(getComputedStyle(document.body).margin) * 6) - document.querySelector('.topnav').offsetHeight;
 
-        // Calculate the box size
+
         const boxSizeByWidth = canvas.width / this.cols;
         const boxSizeByHeight = canvas.height / this.rows;
-        const boxSize = Math.min(boxSizeByHeight, boxSizeByWidth);
+        boxSize = Math.min(boxSizeByHeight, boxSizeByWidth);
 
-        // Calculate the starting coordinates to center the maze
+
         const startX = (canvas.width - (boxSize * this.cols)) / 2;
         const startY = (canvas.height - (boxSize * this.rows)) / 2;
+        console.log(startX + "~" + startY);
 
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -134,5 +327,4 @@ class GenerateMaze {
         ctx.fillStyle = 'tomato';
         ctx.fillRect(exitX, exitY, boxSize, boxSize);
     }
-
 }

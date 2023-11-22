@@ -9,6 +9,36 @@
 </head>
 
 <body>
+
+    <div class="modal" id="notice-modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal()"><img src="./icons/close.svg" alt=""></span>
+            <h2 class="mt">Notice</h2>
+            <div>This project is currently on development. Some functionalities may not work.</div>
+
+            <h4 class="mt">Upcoming features</h4>
+            <div>
+                <h5 class="list-header">Canvas</h5>
+                <ul class="list-top">
+                    <li>Sandbox: To draw you own maze</li>
+                    <li>World map: Street map from real world, to visualize paths between distinations</li>
+                </ul>
+            </div>
+            <div>
+                <h5 class="list-header">Game mode</h5>
+                <ul class="list-top">
+                    <li>Find a path among multiple and compete against shortest path</li>
+                </ul>
+            </div>
+            <div>
+                <h5 class="list-header">More algorithms</h5>
+                <ul class="list-top">
+                    <li>Dijkstra and A* search algorithms' visualization is coming in near future</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
     <div class="topnav">
 
         <div class="menu">
@@ -36,7 +66,8 @@
                     <input type="text" id="nrow" name="nrow" value="50" maxlength="3" size="1">
                     <label class="txt" for="ncol">Cols</label>
                     <input type="text" id="ncol" name="ncol" value="100" maxlength="3" size="1">
-                    <button type="button" id="refresh-button" class="btn btn-borderless"><img src="./icons/refresh.svg" alt=""></button>
+                    <button type="button" id="refresh-button" class="btn btn-borderless"><img src="./icons/refresh.svg"
+                            alt=""></button>
                 </form>
             </div>
             <div id="for-sandbox" class="tools-hidden">
@@ -69,7 +100,7 @@
             <button disabled onclick="" class="btn btn-rspace">
                 <img src="./icons/analyze.svg" alt="">Rate My Path
             </button>
-            <button onclick="" class="btn btn-rspace">
+            <button id="getShortestPath" onclick="" class="btn btn-rspace">
                 <img src="./icons/lightbulb.svg" alt="">Sortest Path
             </button>
         </div>
@@ -88,10 +119,10 @@
                     <span class="selected">BFS</span>
                     <div class="caret"></div>
                 </div>
-                <ul class="listing">
-                    <li class="active">BFS</li>
-                    <li>Dijkstra</li>
-                    <li>A* Search</li>
+                <ul id="algorithm-selection" class="listing">
+                    <li value="1" class="active">BFS</li>
+                    <li value="2">Dijkstra</li>
+                    <li value="3">A* Search</li>
                 </ul>
             </div>
             <button onclick="" id="visualize-btn" class="btn btn-only-labeled">Visualize</button>
