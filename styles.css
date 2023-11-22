@@ -8,11 +8,12 @@ body, html{
 
 canvas{
     background-color: white;
-    border-radius: 0.4em;
-    width: 100%;
-    height: calc(100% - 3.6em);
+    border-radius: 0.5em;
+    /* width: 100%;
+    height: calc(100% - 3.6em); */
     margin-top: 0.4em;
     margin-bottom: 0.4em;
+    image-rendering: pixelated;
 }
 
 .topnav{
@@ -37,8 +38,12 @@ canvas{
     gap: 1em;
 }
 
-.rate, .visualize{
-    gap: 0.1em;
+.rate{
+    gap: 0.3em;
+}
+
+.visualize{
+    gap: 0.3em;
 }
 
 .txt{
@@ -107,13 +112,13 @@ input{
     height: 1.5em;
 }
 
-#visualize{
+#visualize-btn{
     background-color: aquamarine;
     padding-top: 0.5em;
     padding-bottom: 0.5em;
 }
 
-#visualize:hover{
+#visualize-btn:hover{
     background-color: rgb(108, 255, 152);
 }
 
@@ -142,14 +147,13 @@ input{
 }
 
 .select{
-    /* background: red; */
-    /* color: black; */
+    background-color: #f0f2f5;
     display: flex;
     justify-content: space-between;
     align-items: center;
     gap: 0.3em;
-    /* border: 2px none blue; */
-    border-radius: 0.4em;
+    /* border-bottom: 1px solid black; */
+    border-radius: 0.5em;
     padding: 0.5em;
     cursor: pointer;
 }
