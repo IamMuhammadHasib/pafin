@@ -1,3 +1,9 @@
+var maze;
+var canvas = document.querySelector('.maze');
+var boxSize;
+let stopVisualization = 0;
+var isVisualizationRunning = false;
+
 document.addEventListener('DOMContentLoaded', function () {
     const modal = document.getElementById('notice-modal');
     modal.style.display = 'block';
@@ -7,16 +13,15 @@ document.addEventListener('DOMContentLoaded', function () {
     initializeMaze();
 });
 
-function closeModal(){
+function closeModal() {
     const modal = document.getElementById('notice-modal');
     modal.style.display = 'none';
 }
 
-var maze;
-var canvas = document.querySelector('.maze');
-var boxSize;
 
 function initializeMaze() {
+    stopVisualization = 1;
+
     const inputNumberOfRows = document.getElementById('nrow');
     const inputNumberOfCols = document.getElementById('ncol');
 
@@ -57,25 +62,34 @@ algorithmList.addEventListener('click', event => {
 });
 
 document.getElementById('visualize-btn').addEventListener('click', () => {
-    // console.log(selectedAlgorithm);
-    maze.drawMaze();
-    if (selectedAlgorithm == 1) {
-        let bfsTraversal = maze.visualizePathBFS();
-        console.log('BFS');
-        console.log(bfsTraversal);
+    if (!isVisualizationRunning) {
+        // console.log(selectedAlgorithm);
+        stopVisualization = 0;
+        isVisualizationRunning = true;
+        maze.drawMaze();
+        if (selectedAlgorithm == 1) {
+            let bfsTraversal = maze.visualizePathBFS(() => {
+                isVisualizationRunning = false;
+            });
+            console.log('BFS');
+            console.log(bfsTraversal);
 
-        // console.log(this.exit);
-        // let [cx, cy] = this.exit;
-        // console.log(cx + "-" + cy);
+            // console.log(this.exit);
+            // let [cx, cy] = this.exit;
+            // console.log(cx + "-" + cy);
+        }
+        else if (selectedAlgorithm == 2) console.log('Dijkstra');
+        else if (selectedAlgorithm == 3) console.log('A* search');
     }
-    else if (selectedAlgorithm == 2) console.log('Dijkstra');
-    else if (selectedAlgorithm == 3) console.log('A* search');
 });
+
 
 document.getElementById('getShortestPath').addEventListener('click', () => {
     maze.drawMaze();
     let color = 'aquamarine';
+    stopVisualization = 1;
     maze.findPathBFS(color);
+    // stopVisualization = 0;
 });
 
 
@@ -142,7 +156,8 @@ class GenerateMaze {
         this.drawMaze();
     }
 
-    visualizePathBFS() {
+
+    visualizePathBFS(callback) {
         const startX = (canvas.width - (boxSize * this.cols)) / 2;
         const startY = (canvas.height - (boxSize * this.rows)) / 2;
         console.log(startX + "~" + startY);
@@ -161,8 +176,9 @@ class GenerateMaze {
         }
 
         const processQueue = () => {
-            if (queue.length === 0) {
+            if (queue.length === 0 || stopVisualization) {
                 // console.log('No path available');
+                callback();
                 return;
             }
 
@@ -183,9 +199,10 @@ class GenerateMaze {
                 console.log(shortestPath);
                 // return shortestPath;
                 for (let i = 0; i < shortestPath.length; i++) {
-                    this.fillRectangle(shortestPath[i][0], shortestPath[i][1], 'white');
+                    this.fillRectangle(shortestPath[i][0], shortestPath[i][1], 'tomato');
                 }
-                this.fillRectangle(this.exit[0], this.exit[1], 'white');
+                this.fillRectangle(this.exit[0], this.exit[1], 'tomato');
+                callback();
                 return;
 
             }
